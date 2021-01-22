@@ -6,7 +6,6 @@ import 'dart:math' show Random;
 import 'package:zego_express_engine/zego_express_engine.dart' show ZegoScenario;
 
 class ZegoConfig {
-
   static final ZegoConfig instance = ZegoConfig._internal();
   ZegoConfig._internal();
 
@@ -25,7 +24,6 @@ class ZegoConfig {
   String roomID;
   String streamID;
 
-
   // ----- Short-term params -----
 
   bool isPreviewMirror;
@@ -37,14 +35,18 @@ class ZegoConfig {
   Future<void> init() async {
     SharedPreferences config = await SharedPreferences.getInstance();
 
-    this.appID = config.getInt('appID') ?? 0;
-    this.appSign = config.getString('appSign') ?? '';
+    this.appID = config.getInt('appID') ?? 2668809841;
+    this.appSign = config.getString('appSign') ??
+        '445f9ef76d6f5fc4d2e459575e625368452667b23783faa9d523717fb9a2982c';
     this.isTestEnv = config.getBool('isTestEnv') ?? true;
-    this.scenario = config.getInt('scenario') != null ? ZegoScenario.values[config.getInt('scenario')] : ZegoScenario.General;
+    this.scenario = config.getInt('scenario') != null
+        ? ZegoScenario.values[config.getInt('scenario')]
+        : ZegoScenario.General;
 
     this.enablePlatformView = config.getBool('enablePlatformView') ?? false;
 
-    this.userID = config.getString('userID') ?? '${Platform.operatingSystem}-${new Random().nextInt(9999999).toString()}';
+    this.userID = config.getString('userID') ??
+        '${Platform.operatingSystem}-${new Random().nextInt(9999999).toString()}';
     this.userName = config.getString('userName') ?? 'user-$userID';
 
     this.roomID = config.getString('roomID') ?? '';
@@ -57,7 +59,6 @@ class ZegoConfig {
   }
 
   Future<void> saveConfig() async {
-
     SharedPreferences config = await SharedPreferences.getInstance();
 
     config.setInt('appID', this.appID);
@@ -73,5 +74,4 @@ class ZegoConfig {
     config.setString('roomID', this.roomID);
     config.setString('streamID', this.streamID);
   }
-
 }
